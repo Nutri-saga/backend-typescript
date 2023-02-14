@@ -45,6 +45,10 @@ server.app.use(cors());
 //middleware's
 server.app.use(express.json());
 server.app.use(cors());
+//for render health status
+server.app.get("/", (req: Request, res: Response) => {
+  res.sendStatus(200);
+});
 server.app.use("/api/v1/", server.router);
 server.app.use(ErrorResponse.defaultMethod);
 
