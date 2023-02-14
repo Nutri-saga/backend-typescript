@@ -9,7 +9,12 @@ import ErrorResponse from "./errors/ErrorResponse";
 import MasterRouter from "./routers/MasterRouter";
 //cross-origin-requests
 import cors from "cors";
+
+//cloudinary
 import cloudinary from "cloudinary";
+
+//file upload
+import fileupload from "express-fileupload";
 
 //path for .env file.
 config({ path: "./src/config/config.env" });
@@ -42,13 +47,17 @@ const server = new Server();
 //cors
 server.app.use(cors());
 
-//middleware's
-server.app.use(express.json());
+//config-middleware's
+server.app.use(express.json({ limit: "50mb" }));
+server.app.use(fileupload());
 server.app.use(cors());
-//for render health status
+
+//for rendering health status on
 server.app.get("/health", (req: Request, res: Response) => {
   res.sendStatus(200);
 });
+
+//custom-middlewares
 server.app.use("/api/v1/", server.router);
 server.app.use(ErrorResponse.defaultMethod);
 
