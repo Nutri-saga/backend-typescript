@@ -1,15 +1,13 @@
 import Roles from "./Roles";
 import { Types } from "mongoose";
+import { user } from "../models/user";
 
-//only send the valid user details.
-// export const getValidUserDetails = (user: user): user => {
-//   return {
-//     ...user,
-//     password: undefined,
-//     tokens: undefined,
-//     isAdmin: undefined,
-//   };
-// };
+// only send the valid user details.
+export const getValidUserDetails = (user: user): user => {
+  user.password = undefined;
+
+  return user;
+};
 
 //function to generate 6 digit otp by default.
 export const generateOtp = (

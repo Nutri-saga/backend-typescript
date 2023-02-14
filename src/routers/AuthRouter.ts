@@ -1,10 +1,10 @@
 import { Router } from "express";
-import AuthRouter from "./AuthRouter";
-import DishRouter from "./DishRouter";
+import UserController from "../controllers/UserController";
 
 //master router to handle all routes.
-class MasterRouter {
+class AuthRouter {
   private _router = Router();
+  private _authController = UserController;
 
   //returns router
   get router() {
@@ -18,9 +18,9 @@ class MasterRouter {
 
   //method to manage all routes
   private _configure() {
-    this.router.use("/dishes", DishRouter);
-    this.router.use("/auth", AuthRouter);
+    this.router.get("/signup", this._authController.userSignUp);
+    this.router.get("/signin", this._authController.userLogin);
   }
 }
 
-export = new MasterRouter().router;
+export = new AuthRouter().router;
