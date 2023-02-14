@@ -1,5 +1,5 @@
 import { NextFunction } from "express";
-import { Document, Model, model, Schema } from "mongoose";
+import { Document, Model, model, Schema, Types } from "mongoose";
 import Roles from "../utils/Roles";
 import bcrypt from "bcrypt";
 import Error404 from "../errors/Error404";
@@ -7,6 +7,7 @@ import ErrorHandler from "../errors/ErrorHandler";
 import httpStatusCodes from "../errors/HttpCodes";
 
 export interface user {
+  _id: Types.ObjectId;
   name: string;
   email: string;
   phone: string;
