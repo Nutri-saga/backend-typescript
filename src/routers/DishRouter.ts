@@ -1,6 +1,6 @@
 import { Router } from "express";
 import DishController from "../controllers/DishController";
-import VerifyToken from "../middleware/verifyToken";
+import VerifyToken from "../middleware/VerifyToken";
 
 //master router to handle all routes.
 class DishRouter {
