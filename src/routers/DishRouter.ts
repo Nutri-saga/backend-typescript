@@ -6,7 +6,7 @@ import VerifyToken from "../middlewares/verifyToken";
 class DishRouter {
   private _router = Router();
   private _dishController = DishController;
-  private _authMiddleware = VerifyToken.verifyToken;
+  private _authMiddleware = VerifyToken;
 
   //returns router
   get router() {
@@ -23,9 +23,17 @@ class DishRouter {
     this.router
       .get("/", this._dishController.getAllDishes)
       .get("/:id", this._dishController.getDishById)
-      .post("/", this._authMiddleware, this._dishController.addDish)
-      .put("/", this._authMiddleware, this._dishController.updateDish)
-      .delete("/", this._authMiddleware, this._dishController.deleteDishById);
+      .post("/", this._authMiddleware.verifyToken, this._dishController.addDish)
+      .put(
+        "/",
+        this._authMiddleware.verifyToken,
+        this._dishController.updateDish
+      )
+      .delete(
+        "/",
+        this._authMiddleware.verifyToken,
+        this._dishController.deleteDishById
+      );
   }
 }
 

@@ -6,7 +6,7 @@ import VerifyToken from "../middlewares/verifyToken";
 class AuthRouter {
   private _router = Router();
   private _authController = UserController;
-  private _authMiddleware = VerifyToken.verifyToken;
+  private _authMiddleware = VerifyToken;
 
   //returns router
   get router() {
@@ -24,7 +24,7 @@ class AuthRouter {
     this.router.post("/signin", this._authController.userLogin);
     this.router.put(
       "/profile",
-      this._authMiddleware,
+      this._authMiddleware.verifyToken,
       this._authController.updateUserProfile
     );
   }
