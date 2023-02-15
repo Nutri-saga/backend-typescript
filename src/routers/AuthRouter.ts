@@ -1,6 +1,6 @@
 import { Router } from "express";
 import UserController from "../controllers/UserController";
-import VerifyToken from "../middlewares/verifyToken";
+import VerifyToken from "../middleware/verifyToken";
 
 //master router to handle all routes.
 class AuthRouter {
