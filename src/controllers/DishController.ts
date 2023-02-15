@@ -86,6 +86,9 @@ export default class DishController {
       //update dish details object
       const dishDetails: dish = req.body as dish;
 
+      //not changing is_active
+      req.body.is_active = true;
+
       //if dish not found with given id
       if (!dish) {
         throw new Error404(`No dish found with id: ${id}`);
@@ -168,7 +171,7 @@ export default class DishController {
   ) {
     try {
       //destructuring id from req's body
-      const { id } = req.params;
+      const { id } = req.body;
 
       //if id is not valid uuid
       if (!isObjectID(id)) {
@@ -188,7 +191,15 @@ export default class DishController {
         throw new Error404(`No dish found with id: ${id}`);
       }
 
-      //deleting dish
+      //if dish is deleted already.
+      if (!dish.is_active) {
+        throw new ErrorHandler(
+          httpStatusCodes.BAD_REQUEST,
+          "Dish is already deleted."
+        );
+      }
+
+      //deleting dish wth is_active to false;
       dish = await dishModel.findByIdAndUpdate(
         id,
         { is_active: false },

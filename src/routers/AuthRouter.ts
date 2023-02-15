@@ -1,10 +1,12 @@
 import { Router } from "express";
 import UserController from "../controllers/UserController";
+import VerifyToken from "../middlewares/verifyToken";
 
 //master router to handle all routes.
 class AuthRouter {
   private _router = Router();
   private _authController = UserController;
+  private _authMiddleware = VerifyToken.verifyToken;
 
   //returns router
   get router() {
@@ -20,6 +22,11 @@ class AuthRouter {
   private _configure() {
     this.router.post("/signup", this._authController.userSignUp);
     this.router.post("/signin", this._authController.userLogin);
+    this.router.put(
+      "/profile",
+      this._authMiddleware,
+      this._authController.updateUserProfile
+    );
   }
 }
 

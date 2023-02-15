@@ -22,14 +22,10 @@ class DishRouter {
   private _configure() {
     this.router
       .get("/", this._dishController.getAllDishes)
+      .get("/:id", this._dishController.getDishById)
       .post("/", this._authMiddleware, this._dishController.addDish)
       .put("/", this._authMiddleware, this._dishController.updateDish)
-      .get("/:id", this._dishController.getDishById)
-      .delete(
-        "/:id",
-        this._authMiddleware,
-        this._dishController.deleteDishById
-      );
+      .delete("/", this._authMiddleware, this._dishController.deleteDishById);
   }
 }
 

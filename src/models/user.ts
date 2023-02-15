@@ -47,7 +47,7 @@ const userSchema = new Schema<user>(
     },
     role: {
       type: String,
-      enum: Roles,
+      enum: ["L1", "L2", "L3"],
       default: Roles.L1,
       required: [true, "User's role is required."],
     },
