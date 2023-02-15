@@ -18,8 +18,8 @@ class AuthRouter {
 
   //method to manage all routes
   private _configure() {
-    this.router.get("/signup", this._authController.userSignUp);
-    this.router.get("/signin", this._authController.userLogin);
+    this.router.post("/signup", this._authController.userSignUp);
+    this.router.post("/signin", this._authController.userLogin);
   }
 }
 

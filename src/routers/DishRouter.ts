@@ -1,10 +1,12 @@
 import { Router } from "express";
 import DishController from "../controllers/DishController";
+import VerifyToken from "../middlewares/verifyToken";
 
 //master router to handle all routes.
 class DishRouter {
   private _router = Router();
   private _dishController = DishController;
+  private _authMiddleware = VerifyToken.verifyToken;
 
   //returns router
   get router() {
@@ -20,10 +22,14 @@ class DishRouter {
   private _configure() {
     this.router
       .get("/", this._dishController.getAllDishes)
-      .post("/", this._dishController.addDish)
-      .put("/", this._dishController.updateDish)
+      .post("/", this._authMiddleware, this._dishController.addDish)
+      .put("/", this._authMiddleware, this._dishController.updateDish)
       .get("/:id", this._dishController.getDishById)
-      .delete("/:id", this._dishController.deleteDishById);
+      .delete(
+        "/:id",
+        this._authMiddleware,
+        this._dishController.deleteDishById
+      );
   }
 }
 

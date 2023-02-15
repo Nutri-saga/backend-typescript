@@ -1,4 +1,5 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
+import { ObjectID } from "typeorm";
 
 export type Img_url = {
   url: string;
@@ -7,6 +8,7 @@ export type Img_url = {
 };
 
 export interface dish {
+  _id: Types.ObjectId;
   name: string;
   servings: string;
   energy: number;
@@ -14,6 +16,9 @@ export interface dish {
   fats: number;
   calories: number;
   image_url: Img_url;
+  created_by: Types.ObjectId;
+  updated_by: Types.ObjectId;
+  is_active: boolean;
 }
 
 const dishSchema = new Schema<dish>(
@@ -52,6 +57,20 @@ const dishSchema = new Schema<dish>(
         type: String,
         required: true,
       },
+    },
+    created_by: {
+      type: "ObjectID",
+      ref: "User",
+      required: true,
+    },
+    updated_by: {
+      type: "ObjectId",
+      ref: "User",
+      required: true,
+    },
+    is_active: {
+      type: Boolean,
+      default: true,
     },
   },
   {

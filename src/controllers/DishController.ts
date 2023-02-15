@@ -38,6 +38,10 @@ export default class DishController {
         url: uploadResult.secure_url,
       };
 
+      //user details for created_by & updated_by
+      req.body.created_by = req["user"]._id;
+      req.body.updated_by = req["user"]._id;
+
       //converting req to dish.
       const dishDetails: dish = req.body as dish;
 
@@ -76,6 +80,9 @@ export default class DishController {
       //finding dish with given id;
       let dish: dish = await dishModel.findById(id);
 
+      //user details which updated the dish.
+      req.body.updated_by = req["user"];
+
       //update dish details object
       const dishDetails: dish = req.body as dish;
 
@@ -104,7 +111,8 @@ export default class DishController {
     next: NextFunction
   ) {
     try {
-      const dishes: dish[] = await dishModel.find();
+      const dishes: dish[] = await dishModel.find({ is_active: true });
+
       //reponse
       const response = new ResponseImpl(httpStatusCodes.OK, {
         dishes,
@@ -181,7 +189,11 @@ export default class DishController {
       }
 
       //deleting dish
-      dish = await dishModel.findByIdAndDelete(id);
+      dish = await dishModel.findByIdAndUpdate(
+        id,
+        { is_active: false },
+        { new: true }
+      );
 
       //Response
       const response = new ResponseImpl(httpStatusCodes.OK, {
